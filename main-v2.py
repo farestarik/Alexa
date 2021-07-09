@@ -57,6 +57,7 @@ def calc_age(age : int):
 
 def take_command():
     try:
+        command = ''
         with sr.Microphone() as source:
             print('Listening..')
             voice = listener.listen(source)
@@ -72,13 +73,16 @@ def take_command():
 
 def run_alexa():
     command = take_command()
+    if(command == ''):
+        print("No Keywords Applied.. Try Again With Keywords".center(80,">"))
+        exit()
     if 'play' in command:
         song = command.replace('play', ' ').replace('song',' ').strip()
         talk('Playing' + str(song) + '..')
         print(song)
         pywhatkit.playonyt(song)
     elif 'youtube' in command:
-        keywords = command.replace(' youtube ', ' ').strip()
+        keywords = command.replace('youtube', '').strip()
         keywords.replace(' ', '+')
         print(f"Searching for {keywords} ...")      
         webbrowser.open(f'https://www.youtube.com/results?search_query={keywords}', new=2)
@@ -86,7 +90,7 @@ def run_alexa():
             time = datetime.datetime.now().strftime('%H:%M %p')
             print(time)
             talk('Its ' + time)
-    elif ('who' and 'is' in command) or ('من هو' in command):
+    elif ('who' and ' is ' in command) or ('من هو' in command):
         person = command.replace('who', ' ').replace(' is ', ' ').replace('من هو', ' ').strip()
         wikipedia.set_lang("ar")
         print(person)
