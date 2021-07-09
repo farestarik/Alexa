@@ -27,6 +27,34 @@ def talk(words: str, lang: str="en"):
         pyglet.clock.tick()
         time.sleep(TICK)
 
+def calc_age(age : int):
+    age = int(age)
+
+    months = age * 12
+    weeks = months * 4
+    days = age * 365
+    hours = days * 24
+    minutes = hours * 60
+    seconds = minutes * 60 
+
+    print("You lived For: ")
+    print(f"Years : {age} Years.")
+    print(f"Months : {months} Months.")
+    print(f"Weeks : {weeks:,} Weeks.")
+    print(f"Days : {days:,} Days.")
+    print(f"Hours : {hours:,} Hours.")
+    print(f"Minutes : {minutes:,} Minutes.")
+    print(f"Seconds : {seconds:,} Seconds.")
+    
+    talk("You lived For: ")
+    talk(f"Years : {age} Years.")
+    talk(f"Months : {months} Months.")
+    talk(f"Weeks : {weeks:,} Weeks.")
+    talk(f"Days : {days:,} Days.")
+    talk(f"Hours : {hours:,} Hours.")
+    talk(f"Minutes : {minutes:,} Minutes.")
+    talk(f"Seconds : {seconds:,} Seconds.")
+
 def take_command():
     try:
         with sr.Microphone() as source:
@@ -58,13 +86,17 @@ def run_alexa():
             time = datetime.datetime.now().strftime('%H:%M %p')
             print(time)
             talk('Its ' + time)
-    elif ('who' and 'is') or ('من هو') in command:
+    elif ('who' and 'is' in command) or ('من هو' in command):
         person = command.replace('who', ' ').replace(' is ', ' ').replace('من هو', ' ').strip()
         wikipedia.set_lang("ar")
         print(person)
         info = wikipedia.summary(person, 2)
         print(info)
         talk(info,"ar")
+    elif 'calc my age' in command or 'calculate my age' in command:
+        age = command.replace('calc my age', '').replace('calculate my age', '').strip()
+        print(age)
+        calc_age(int(age))    
     elif 'are you single' in command:
         talk('Iam in relationship with ommak')
     elif 'tell me a joke' in command:
