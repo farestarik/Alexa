@@ -1,6 +1,7 @@
 import io
 import time
 import speech_recognition as sr
+import webbrowser
 import pyglet
 import pywhatkit
 import datetime
@@ -48,7 +49,11 @@ def run_alexa():
         talk('Playing' + str(song) + '..')
         print(song)
         pywhatkit.playonyt(song)
-        
+    elif 'youtube' in command:
+        keywords = command.replace(' youtube ', ' ').strip()
+        keywords.replace(' ', '+')
+        print(f"Searching for {keywords} ...")      
+        webbrowser.open(f'https://www.youtube.com/results?search_query={keywords}', new=2)
     elif 'clock' in command:
             time = datetime.datetime.now().strftime('%H:%M %p')
             print(time)
